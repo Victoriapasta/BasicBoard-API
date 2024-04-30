@@ -2,10 +2,12 @@ package crudbasic.hello.domain.member;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "MEMBER")
+@NoArgsConstructor
 public class Member {
 
     @Id
@@ -25,7 +27,4 @@ public class Member {
         this.username = username;
     }
 
-    public Member() {
-
-    }
 }

@@ -3,15 +3,17 @@ package crudbasic.hello.domain.board;
 import crudbasic.hello.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "BOARD")
+@NoArgsConstructor
 public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_ID")
+    @Column(name = "BOARD_ID")
     private Long id;
 
     @Column(name = "TITLE", nullable = false)
@@ -30,7 +32,4 @@ public class Board {
         this.member = member;
     }
 
-    public Board() {
-
-    }
 }

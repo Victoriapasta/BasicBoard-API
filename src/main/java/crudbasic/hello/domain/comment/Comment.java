@@ -2,13 +2,14 @@ package crudbasic.hello.domain.comment;
 
 import crudbasic.hello.domain.board.Board;
 import crudbasic.hello.domain.member.Member;
-import crudbasic.hello.dto.comment.CommentDto;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "COMMENT")
+@NoArgsConstructor
 public class Comment {
 
     @Id
@@ -33,11 +34,4 @@ public class Comment {
         this.board = board;
     }
 
-    public Comment() {
-
-    }
-
-    public static Comment toEntity(CommentDto commentDto) {
-        return new Comment(commentDto.getContent(), commentDto.getMember(), commentDto.getBoard());
-    }
 }
