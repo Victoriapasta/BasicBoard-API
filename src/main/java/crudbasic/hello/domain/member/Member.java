@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "MEMBER")
 @NoArgsConstructor
 public class Member {
 
@@ -21,10 +20,8 @@ public class Member {
     @Column(name = "PASSWORD")
     private String password;
 
-
     public Member(String password, String username) {
         this.password = password;
         this.username = username;
     }
-
 }

@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class BoardDto {
 
@@ -22,7 +21,10 @@ public class BoardDto {
     private Member member;
 
     public static BoardDto toDto(Board board) {
-        return new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getMember());
+        return new BoardDto(board.getId(),
+                board.getTitle(),
+                board.getContent(),
+                board.getMember());
     }
 
     public static List<BoardDto> toListDto(List<Board> boards) {
@@ -30,5 +32,4 @@ public class BoardDto {
                 .map(b -> BoardDto.toDto(b))
                 .collect(Collectors.toList());
     }
-
 }

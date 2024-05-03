@@ -15,12 +15,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CommentDto {
 
+    private Long id;
     private String content;
     private Board board;
     private Member member;
 
     public static CommentDto toDto(Comment comment) {
-        return new CommentDto(comment.getContent(), comment.getBoard(), comment.getMember());
+        return new CommentDto(comment.getId(), comment.getContent(), comment.getBoard(), comment.getMember());
     }
 
     public static List<CommentDto> toListDto(List<Comment> comments) {

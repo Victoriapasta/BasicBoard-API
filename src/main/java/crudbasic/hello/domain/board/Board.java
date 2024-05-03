@@ -1,13 +1,13 @@
 package crudbasic.hello.domain.board;
 
 import crudbasic.hello.domain.member.Member;
+import crudbasic.hello.dto.board.BoardDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "BOARD")
 @NoArgsConstructor
 public class Board {
 
@@ -32,4 +32,8 @@ public class Board {
         this.member = member;
     }
 
+    public void updateBoard(BoardDto boardDto) {
+        this.title = boardDto.getTitle();
+        this.content = boardDto.getContent();
+    }
 }

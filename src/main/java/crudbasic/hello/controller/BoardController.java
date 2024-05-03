@@ -30,4 +30,9 @@ public class BoardController {
         return "-";
     }
 
+    @PostMapping("/{boardId}/save")
+    public String boardSave() {
+
+        return "-";
+    }
 }

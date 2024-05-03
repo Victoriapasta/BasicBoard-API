@@ -2,13 +2,13 @@ package crudbasic.hello.domain.comment;
 
 import crudbasic.hello.domain.board.Board;
 import crudbasic.hello.domain.member.Member;
+import crudbasic.hello.dto.comment.CommentDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "COMMENT")
 @NoArgsConstructor
 public class Comment {
 
@@ -28,10 +28,14 @@ public class Comment {
     @JoinColumn(name = "BOARD_ID")
     private Board board;
 
-    public Comment(String content, Member member, Board board) {
+    public Comment(Long id, String content, Member member, Board board) {
+        this.id = id;
         this.content = content;
         this.member = member;
         this.board = board;
     }
 
+    public void updateComment(CommentDto commentDto) {
+        this.content = commentDto.getContent();
+    }
 }

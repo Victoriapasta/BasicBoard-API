@@ -28,4 +28,12 @@ public class CommentController {
         List<CommentDto> commentDtoList = commentService.findByUsername(username);
         return "-";
     }
+
+    @GetMapping("{boardId}")
+    public String getCommentByBoardId(@PathVariable Long boardId) {
+        List<CommentDto> commentDtoList = commentService.findByBoardId(boardId);
+        return "-";
+    }
+
+
 }

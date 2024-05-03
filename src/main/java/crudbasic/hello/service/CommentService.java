@@ -3,8 +3,8 @@ package crudbasic.hello.service;
 import crudbasic.hello.domain.comment.Comment;
 import crudbasic.hello.domain.member.Member;
 import crudbasic.hello.dto.comment.CommentDto;
-import crudbasic.hello.exception.CommentNotFound;
-import crudbasic.hello.exception.MemberNotFound;
+import crudbasic.hello.utils.exception.CommentNotFoundException;
+import crudbasic.hello.utils.exception.MemberNotFoundException;
 import crudbasic.hello.repository.CommentRepository;
 import crudbasic.hello.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class CommentService {
     private MemberRepository memberRepository;
 
     public CommentDto findByCommentId(Long id) {
-        return CommentDto.toDto(commentRepository.findById(id).orElseThrow(CommentNotFound::new));
+        return CommentDto.toDto(commentRepository.findById(id).orElseThrow(CommentNotFoundException::new));
     }
 
     public List<CommentDto> findByUsername(String username) {
@@ -35,8 +35,16 @@ public class CommentService {
 
     @Transactional
     public CommentDto commentSave(Long boardId, String username, CommentDto commentDto) {
-        Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFound::new);
-        Comment comment = commentRepository.save(new Comment(commentDto.getContent(), commentDto.getMember(), commentDto.getBoard()));
+        Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new);
+        //TODO: Validation 필요
+        Comment comment = commentRepository.save(new Comment(commentDto.getId(), commentDto.getContent(), commentDto.getMember(), commentDto.getBoard()));
+        return CommentDto.toDto(comment);
+    }
+
+    @Transactional
+    public CommentDto commentUpdate(Long id, String username, CommentDto commentDto) {
+        Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
+        comment.updateComment(commentDto);
         return CommentDto.toDto(comment);
     }
 }
