@@ -13,20 +13,24 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CommentDto {
+public class CommentResponseDto {
 
     private Long id;
     private String content;
     private Board board;
     private Member member;
 
-    public static CommentDto toDto(Comment comment) {
-        return new CommentDto(comment.getId(), comment.getContent(), comment.getBoard(), comment.getMember());
+    public static CommentResponseDto toDto(Comment comment) {
+        return new CommentResponseDto(
+                comment.getId(),
+                comment.getContent(),
+                comment.getBoard(),
+                comment.getMember());
     }
 
-    public static List<CommentDto> toListDto(List<Comment> comments) {
+    public static List<CommentResponseDto> toListDto(List<Comment> comments) {
         return comments.stream()
-                .map(comment -> CommentDto.toDto(comment))
+                .map(comment -> CommentResponseDto.toDto(comment))
                 .collect(Collectors.toList());
     }
 }

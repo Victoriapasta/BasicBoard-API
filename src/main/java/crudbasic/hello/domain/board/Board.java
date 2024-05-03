@@ -1,7 +1,7 @@
 package crudbasic.hello.domain.board;
 
 import crudbasic.hello.domain.member.Member;
-import crudbasic.hello.dto.board.BoardDto;
+import crudbasic.hello.dto.board.BoardRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +32,8 @@ public class Board {
         this.member = member;
     }
 
-    public void updateBoard(BoardDto boardDto) {
-        this.title = boardDto.getTitle();
-        this.content = boardDto.getContent();
+    public void updateBoard(BoardRequestDto boardRequestDto) {
+        this.title = boardRequestDto.getTitle();
+        this.content = boardRequestDto.getContent();
     }
 }

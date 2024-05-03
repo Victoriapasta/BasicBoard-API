@@ -1,9 +1,10 @@
 package crudbasic.hello.controller;
 
-import crudbasic.hello.dto.comment.CommentDto;
+import crudbasic.hello.dto.comment.CommentResponseDto;
 import crudbasic.hello.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,25 +16,29 @@ import java.util.List;
 @RequestMapping("/comments")
 public class CommentController {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @GetMapping("/{id}")
     public String getCommentById(@PathVariable Long id) {
-        CommentDto commentDto = commentService.findByCommentId(id);
+        CommentResponseDto commentResponseDto = commentService.findByCommentId(id);
         return "-";
     }
 
     @GetMapping("/{username}")
     public String getCommentByUsername(@PathVariable String username) {
-        List<CommentDto> commentDtoList = commentService.findByUsername(username);
+        List<CommentResponseDto> commentResponseDtoList = commentService.findByUsername(username);
         return "-";
     }
 
     @GetMapping("{boardId}")
     public String getCommentByBoardId(@PathVariable Long boardId) {
-        List<CommentDto> commentDtoList = commentService.findByBoardId(boardId);
+        List<CommentResponseDto> commentResponseDtoList = commentService.findByBoardId(boardId);
         return "-";
     }
 
-
+    @DeleteMapping
+    public String deleteComment(Long id) {
+        commentService.deleteComment(id);
+        return "-";
+    }
 }

@@ -6,13 +6,16 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemberDto {
+public class MemberResponseDto {
 
     private Long id;
     private String username;
     private String password;
 
-    public static MemberDto toDto(Member member) {
-        return new MemberDto(member.getId(), member.getUsername(), member.getPassword());
+    public static MemberResponseDto toDto(Member member) {
+        return new MemberResponseDto(
+                member.getId(),
+                member.getUsername(),
+                member.getPassword());
     }
 }

@@ -1,5 +1,6 @@
 package crudbasic.hello.domain.member;
 
+import crudbasic.hello.dto.member.MemberRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,13 @@ public class Member {
     @Column(name = "PASSWORD")
     private String password;
 
-    public Member(String password, String username) {
-        this.password = password;
+    public Member(String username, String password) {
         this.username = username;
+        this.password = password;
+    }
+
+    public void updateMember(MemberRequestDto memberRequestDto) {
+        this.username = memberRequestDto.getUsername();
+        this.password = memberRequestDto.getPassword();
     }
 }

@@ -1,18 +1,37 @@
 package crudbasic.hello.service;
 
-import crudbasic.hello.dto.member.MemberDto;
+import crudbasic.hello.domain.member.Member;
+import crudbasic.hello.dto.member.MemberRequestDto;
+import crudbasic.hello.dto.member.MemberResponseDto;
 import crudbasic.hello.utils.exception.MemberNotFoundException;
 import crudbasic.hello.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class MemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    public MemberDto findByMemberId(Long id) {
-        return MemberDto.toDto(memberRepository.findById(id).orElseThrow(MemberNotFoundException::new));
+    @Transactional
+    public MemberResponseDto saveMember(MemberRequestDto memberRequestDto) {
+        return MemberResponseDto.toDto(memberRepository.save(new Member(memberRequestDto.getUsername(), memberRequestDto.getPassword())));
+    }
+
+    public MemberResponseDto findByMemberId(Long id) {
+        return MemberResponseDto.toDto(memberRepository.findById(id).orElseThrow(MemberNotFoundException::new));
+    }
+
+    public MemberResponseDto findByUsername(String username) {
+        return MemberResponseDto.toDto(memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new));
+    }
+
+    @Transactional
+    public void deleteMember(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        memberRepository.delete(member);
     }
 }

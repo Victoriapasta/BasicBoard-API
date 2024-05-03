@@ -2,7 +2,7 @@ package crudbasic.hello.domain.comment;
 
 import crudbasic.hello.domain.board.Board;
 import crudbasic.hello.domain.member.Member;
-import crudbasic.hello.dto.comment.CommentDto;
+import crudbasic.hello.dto.comment.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +35,7 @@ public class Comment {
         this.board = board;
     }
 
-    public void updateComment(CommentDto commentDto) {
-        this.content = commentDto.getContent();
+    public void updateComment(CommentRequestDto commentRequestDto) {
+        this.content = commentRequestDto.getContent();
     }
 }

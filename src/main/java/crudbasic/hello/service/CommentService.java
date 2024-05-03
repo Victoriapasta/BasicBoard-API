@@ -2,11 +2,13 @@ package crudbasic.hello.service;
 
 import crudbasic.hello.domain.comment.Comment;
 import crudbasic.hello.domain.member.Member;
-import crudbasic.hello.dto.comment.CommentDto;
+import crudbasic.hello.dto.comment.CommentRequestDto;
+import crudbasic.hello.dto.comment.CommentResponseDto;
 import crudbasic.hello.utils.exception.CommentNotFoundException;
 import crudbasic.hello.utils.exception.MemberNotFoundException;
 import crudbasic.hello.repository.CommentRepository;
 import crudbasic.hello.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,37 +16,47 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class CommentService {
 
-    private CommentRepository commentRepository;
-    private MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
+    private final MemberRepository memberRepository;
 
-    public CommentDto findByCommentId(Long id) {
-        return CommentDto.toDto(commentRepository.findById(id).orElseThrow(CommentNotFoundException::new));
+    public CommentResponseDto findByCommentId(Long id) {
+        return CommentResponseDto.toDto(commentRepository.findById(id).orElseThrow(CommentNotFoundException::new));
     }
 
-    public List<CommentDto> findByUsername(String username) {
+    public List<CommentResponseDto> findByUsername(String username) {
         List<Comment> comments = commentRepository.findByUsername(username);
-        return CommentDto.toListDto(comments);
+        return CommentResponseDto.toListDto(comments);
     }
 
-    public List<CommentDto> findByBoardId(Long boardId) {
+    public List<CommentResponseDto> findByBoardId(Long boardId) {
         List<Comment> comments = commentRepository.findByBoardId(boardId);
-        return CommentDto.toListDto(comments);
+        return CommentResponseDto.toListDto(comments);
     }
 
     @Transactional
-    public CommentDto commentSave(Long boardId, String username, CommentDto commentDto) {
+    public CommentResponseDto commentSave(Long boardId, String username, CommentRequestDto commentRequestDto) {
         Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new);
         //TODO: Validation 필요
-        Comment comment = commentRepository.save(new Comment(commentDto.getId(), commentDto.getContent(), commentDto.getMember(), commentDto.getBoard()));
-        return CommentDto.toDto(comment);
+        Comment comment = commentRepository.save(new Comment(commentRequestDto.getId(),
+                commentRequestDto.getContent(),
+                commentRequestDto.getMember(),
+                commentRequestDto.getBoard()));
+        return CommentResponseDto.toDto(comment);
     }
 
     @Transactional
-    public CommentDto commentUpdate(Long id, String username, CommentDto commentDto) {
+    public CommentResponseDto commentUpdate(Long id, String username, CommentRequestDto commentRequestDto) {
         Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
-        comment.updateComment(commentDto);
-        return CommentDto.toDto(comment);
+        comment.updateComment(commentRequestDto);
+        return CommentResponseDto.toDto(comment);
+    }
+
+    @Transactional
+    public void deleteComment(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
+        commentRepository.delete(comment);
     }
 }

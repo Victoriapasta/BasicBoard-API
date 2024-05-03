@@ -2,7 +2,8 @@ package crudbasic.hello.service;
 
 import crudbasic.hello.domain.board.Board;
 import crudbasic.hello.domain.member.Member;
-import crudbasic.hello.dto.board.BoardDto;
+import crudbasic.hello.dto.board.BoardRequestDto;
+import crudbasic.hello.dto.board.BoardResponseDto;
 import crudbasic.hello.utils.exception.BoardNotFoundException;
 import crudbasic.hello.utils.exception.MemberNotFoundException;
 import crudbasic.hello.repository.BoardRepository;
@@ -21,27 +22,33 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    public BoardDto findByBoardId(Long id) {
-        return BoardDto.toDto(boardRepository.findById(id).orElseThrow(BoardNotFoundException::new));
+    public BoardResponseDto findByBoardId(Long id) {
+        return BoardResponseDto.toDto(boardRepository.findById(id).orElseThrow(BoardNotFoundException::new));
     }
 
-    public List<BoardDto> findByUsername(String username) {
+    public List<BoardResponseDto> findByUsername(String username) {
         List<Board> boards = boardRepository.findByUsername(username);
-        return BoardDto.toListDto(boards);
+        return BoardResponseDto.toListDto(boards);
     }
 
     @Transactional
-    public BoardDto boardSave(BoardDto boardDto, String username) {
+    public BoardResponseDto boardSave(BoardRequestDto boardRequestDto, String username) { //TODO : 여기 수정해야함
         Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new);
         //TODO : 멤버 받은거 이용해서 보드 저장하기
-        Board board = boardRepository.save(new Board(boardDto.getTitle(), boardDto.getContent(), boardDto.getMember()));
-        return BoardDto.toDto(board);
+        Board board = boardRepository.save(new Board(boardRequestDto.getTitle(), boardRequestDto.getContent(), boardRequestDto.getMember()));
+        return BoardResponseDto.toDto(board);
     }
 
     @Transactional
-    public BoardDto boardUpdate(BoardDto boardDto, Long id) {
+    public BoardResponseDto boardUpdate(BoardRequestDto boardRequestDto, Long id) { //TODO : 여기 수정해야함 시발
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
-        board.updateBoard(boardDto);
-        return BoardDto.toDto(board);
+        board.updateBoard(boardRequestDto);
+        return BoardResponseDto.toDto(board);
+    }
+
+    @Transactional
+    public void deleteBoard(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        boardRepository.delete(board);
     }
 }
