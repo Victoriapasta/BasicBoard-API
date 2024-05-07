@@ -4,10 +4,12 @@ import crudbasic.hello.domain.board.Board;
 import crudbasic.hello.domain.member.Member;
 import crudbasic.hello.dto.board.BoardRequestDto;
 import crudbasic.hello.dto.board.BoardResponseDto;
+import crudbasic.hello.dto.member.MemberResponseDto;
 import crudbasic.hello.utils.exception.BoardNotFoundException;
 import crudbasic.hello.utils.exception.MemberNotFoundException;
 import crudbasic.hello.repository.BoardRepository;
 import crudbasic.hello.repository.MemberRepository;
+import crudbasic.hello.utils.validation.BoardOwnerValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,17 +34,18 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponseDto boardSave(BoardRequestDto boardRequestDto, String username) { //TODO : 여기 수정해야함
-        Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new);
-        //TODO : 멤버 받은거 이용해서 보드 저장하기
+    public BoardResponseDto boardSave(BoardRequestDto boardRequestDto) {
         Board board = boardRepository.save(new Board(boardRequestDto.getTitle(), boardRequestDto.getContent(), boardRequestDto.getMember()));
         return BoardResponseDto.toDto(board);
     }
 
     @Transactional
-    public BoardResponseDto boardUpdate(BoardRequestDto boardRequestDto, Long id) { //TODO : 여기 수정해야함 시발
+    public BoardResponseDto boardUpdate(BoardRequestDto boardRequestDto, Long id) {
+        Member member = memberRepository.findById(boardRequestDto.getMember().getId()).orElseThrow(MemberNotFoundException::new);
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
-        board.updateBoard(boardRequestDto);
+        if (BoardOwnerValidator.isBoardOwner(MemberResponseDto.toDto(member), BoardResponseDto.toDto(board))) {
+            board.updateBoard(boardRequestDto);
+        }
         return BoardResponseDto.toDto(board);
     }
 

@@ -40,6 +40,7 @@ public class CommentService {
     public CommentResponseDto commentSave(Long boardId, String username, CommentRequestDto commentRequestDto) {
         Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new);
         //TODO: Validation 필요
+
         Comment comment = commentRepository.save(new Comment(commentRequestDto.getId(),
                 commentRequestDto.getContent(),
                 commentRequestDto.getMember(),

@@ -1,17 +1,14 @@
 package crudbasic.hello.controller;
 
+import crudbasic.hello.dto.comment.CommentRequestDto;
 import crudbasic.hello.dto.comment.CommentResponseDto;
 import crudbasic.hello.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/comments")
 public class CommentController {
@@ -33,6 +30,12 @@ public class CommentController {
     @GetMapping("{boardId}")
     public String getCommentByBoardId(@PathVariable Long boardId) {
         List<CommentResponseDto> commentResponseDtoList = commentService.findByBoardId(boardId);
+        return "-";
+    }
+
+    @PostMapping
+    public String commentSave(@RequestBody CommentRequestDto commentRequestDto) {
+
         return "-";
     }
 

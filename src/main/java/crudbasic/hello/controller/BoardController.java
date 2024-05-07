@@ -6,12 +6,11 @@ import crudbasic.hello.dto.member.MemberResponseDto;
 import crudbasic.hello.service.BoardService;
 import crudbasic.hello.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/boards")
 public class BoardController {
@@ -34,7 +33,13 @@ public class BoardController {
     @PostMapping
     public String boardSave(@RequestBody BoardRequestDto boardRequestDto, @RequestParam String username) {
         MemberResponseDto memberResponseDto = memberService.findByUsername(username);
-        BoardResponseDto boardResponseDto = boardService.boardSave(boardRequestDto, username);
+        BoardResponseDto boardResponseDto = boardService.boardSave(boardRequestDto);
+        return "-";
+    }
+
+    @PostMapping
+    public String boardUpdate(@RequestBody BoardRequestDto boardRequestDto, @RequestParam Long id) {
+        BoardResponseDto boardResponseDto = boardService.boardUpdate(boardRequestDto, id);
         return "-";
     }
 

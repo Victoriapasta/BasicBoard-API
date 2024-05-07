@@ -5,7 +5,7 @@ import crudbasic.hello.dto.member.MemberResponseDto;
 
 public class BoardOwnerValidator {
 
-    public boolean isBoardOwner(MemberResponseDto member, BoardResponseDto board) {
+    public static boolean isBoardOwner(MemberResponseDto member, BoardResponseDto board) {
         if (isOwner(member, board)) {
             return true;
         }
