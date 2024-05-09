@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findByUsername(@Param("username") String username);
+    List<Comment> findAllByMemberId(@Param("memberId") Long memberId);
 
-    List<Comment> findByBoardId(@Param("boardId") Long boardId);
+    List<Comment> findAllByBoardId(@Param("boardId") Long boardId);
 }

@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    List<Board> findByUsername(@Param("username") String username);
+    List<Board> findAllByMemberId(@Param("memberId") Long memberId);
 }

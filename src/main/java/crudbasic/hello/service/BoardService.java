@@ -28,19 +28,21 @@ public class BoardService {
         return BoardResponseDto.toDto(boardRepository.findById(id).orElseThrow(BoardNotFoundException::new));
     }
 
-    public List<BoardResponseDto> findByUsername(String username) {
-        List<Board> boards = boardRepository.findByUsername(username);
+    public List<BoardResponseDto> findAllByMemberId(Long memberId) {
+        List<Board> boards = boardRepository.findAllByMemberId(memberId);
         return BoardResponseDto.toListDto(boards);
     }
 
     @Transactional
-    public BoardResponseDto boardSave(BoardRequestDto boardRequestDto) {
+    public BoardResponseDto boardSave(Long id, BoardRequestDto boardRequestDto) {
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        boardRequestDto.setMember(member);
         Board board = boardRepository.save(new Board(boardRequestDto.getTitle(), boardRequestDto.getContent(), boardRequestDto.getMember()));
         return BoardResponseDto.toDto(board);
     }
 
     @Transactional
-    public BoardResponseDto boardUpdate(BoardRequestDto boardRequestDto, Long id) {
+    public BoardResponseDto boardUpdate(Long id, BoardRequestDto boardRequestDto) {
         Member member = memberRepository.findById(boardRequestDto.getMember().getId()).orElseThrow(MemberNotFoundException::new);
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         if (BoardOwnerValidator.isBoardOwner(MemberResponseDto.toDto(member), BoardResponseDto.toDto(board))) {
