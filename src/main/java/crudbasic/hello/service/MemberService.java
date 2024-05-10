@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -21,8 +23,8 @@ public class MemberService {
         return MemberResponseDto.toDto(memberRepository.save(new Member(memberRequestDto.getUsername(), memberRequestDto.getPassword())));
     }
 
-    public MemberResponseDto findByMemberId(Long id) {
-        return MemberResponseDto.toDto(memberRepository.findById(id).orElseThrow(MemberNotFoundException::new));
+    public List<MemberResponseDto> findAllMember() {
+        return MemberResponseDto.toListDto(memberRepository.findAll());
     }
 
     public MemberResponseDto findByUsername(String username) {

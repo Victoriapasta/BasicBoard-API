@@ -34,6 +34,10 @@ public class BoardService {
         return BoardResponseDto.toListDto(boards);
     }
 
+    public List<BoardResponseDto> findAllBoards() {
+        return BoardResponseDto.toListDto(boardRepository.findAll());
+    }
+
     @Transactional
     public BoardResponseDto boardSave(Long id, BoardRequestDto boardRequestDto) {
         Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);

@@ -33,6 +33,12 @@ public class BoardController {
         return new ResponseEntity<>(boardResponseDtoList, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<List<BoardResponseDto>> getAllBoards() {
+        List<BoardResponseDto> boardResponseDtoList = boardService.findAllBoards();
+        return new ResponseEntity<>(boardResponseDtoList, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<BoardResponseDto> boardSave(@Valid @RequestBody BoardRequestDto boardRequestDto, @RequestParam String username) {
         MemberResponseDto memberResponseDto = memberService.findByUsername(username);

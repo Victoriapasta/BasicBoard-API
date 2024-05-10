@@ -27,7 +27,7 @@ public class BoardResponseDto {
 
     public static List<BoardResponseDto> toListDto(List<Board> boards) {
         return boards.stream()
-                .map(b -> BoardResponseDto.toDto(b))
+                .map(board -> BoardResponseDto.toDto(board))
                 .collect(Collectors.toList());
     }
 }
