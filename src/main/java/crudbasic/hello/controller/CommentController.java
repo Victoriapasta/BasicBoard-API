@@ -24,13 +24,13 @@ public class CommentController {
         return new ResponseEntity<>(commentResponseDto, HttpStatus.OK);
     }
 
-    @GetMapping("/{memberId}/comments")
+    @GetMapping("/{memberId}/userComments")
     public ResponseEntity<List<CommentResponseDto>> getCommentByMemberId(@PathVariable Long memberId) {
         List<CommentResponseDto> commentResponseDtoList = commentService.findAllByUsername(memberId);
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/{boardId}/comments")
+    @GetMapping("/{boardId}/boardComments")
     public ResponseEntity<List<CommentResponseDto>> getCommentByBoardId(@PathVariable Long boardId) {
         List<CommentResponseDto> commentResponseDtoList = commentService.findAllByBoardId(boardId);
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);

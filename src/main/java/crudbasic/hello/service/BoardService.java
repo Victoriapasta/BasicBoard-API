@@ -28,8 +28,9 @@ public class BoardService {
         return BoardResponseDto.toDto(boardRepository.findById(id).orElseThrow(BoardNotFoundException::new));
     }
 
-    public List<BoardResponseDto> findAllByMemberId(Long memberId) {
-        List<Board> boards = boardRepository.findAllByMemberId(memberId);
+    public List<BoardResponseDto> findAllByUsername(String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new);
+        List<Board> boards = boardRepository.findAllByMemberId(member.getId());
         return BoardResponseDto.toListDto(boards);
     }
 

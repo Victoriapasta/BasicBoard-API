@@ -21,15 +21,15 @@ public class BoardController {
     private final BoardService boardService;
     private final MemberService memberService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/boardId/{id}")
     public ResponseEntity<BoardResponseDto> getBoardById(@PathVariable Long id) {
         BoardResponseDto boardResponseDto = boardService.findByBoardId(id);
         return new ResponseEntity<>(boardResponseDto, HttpStatus.OK);
     }
 
-    @GetMapping("/{memberId}")
-    public ResponseEntity<List<BoardResponseDto>> getBoardByUserId(@PathVariable Long memberId) {
-        List<BoardResponseDto> boardResponseDtoList = boardService.findAllByMemberId(memberId);
+    @GetMapping("/username/{username}")
+    public ResponseEntity<List<BoardResponseDto>> getBoardByUsername(@PathVariable String username) {
+        List<BoardResponseDto> boardResponseDtoList = boardService.findAllByUsername(username);
         return new ResponseEntity<>(boardResponseDtoList, HttpStatus.OK);
     }
 

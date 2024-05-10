@@ -1,0 +1,6 @@
+INSERT INTO MEMBER (USERNAME, PASSWORD) values ('testUser1', '0000');
+INSERT INTO MEMBER (USERNAME, PASSWORD) values ('testUser2', '1234');
+
+INSERT INTO BOARD (TITLE, CONTENT, MEMBER_ID) values ('testTitle1', 'hello world', 1);
+
+INSERT INTO COMMENT (CONTENT, MEMBER_ID, BOARD_ID) values ('hello java', 1, 1);
