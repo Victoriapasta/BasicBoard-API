@@ -1,5 +1,6 @@
 package crudbasic.hello.service;
 
+import crudbasic.hello.domain.board.Board;
 import crudbasic.hello.domain.comment.Comment;
 import crudbasic.hello.domain.member.Member;
 import crudbasic.hello.dto.comment.CommentRequestDto;
@@ -43,13 +44,13 @@ public class CommentService {
 
     @Transactional
     public CommentResponseDto commentSave(String username, Long boardId, CommentRequestDto commentRequestDto) {
-        commentRequestDto.setMember( memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new));
-        commentRequestDto.setBoard(boardRepository.findById(boardId).orElseThrow(BoardNotFoundException::new));
+        Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new);
+        Board board = boardRepository.findById(boardId).orElseThrow(BoardNotFoundException::new);
 
         Comment comment = commentRepository.save(new Comment(commentRequestDto.getId(),
                 commentRequestDto.getContent(),
-                commentRequestDto.getMember(),
-                commentRequestDto.getBoard()));
+                member,
+                board));
 
         return CommentResponseDto.toDto(comment);
     }
@@ -57,12 +58,6 @@ public class CommentService {
     @Transactional
     public CommentResponseDto commentUpdate(Long id, CommentRequestDto commentRequestDto) {
         Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
-        Member member = memberRepository.findById(commentRequestDto.getMember().getId()).orElseThrow(MemberNotFoundException::new);
-
-        if (CommentOwnerValidator.isCommentOwner(MemberResponseDto.toDto(member), CommentResponseDto.toDto(comment))) {
-            comment.updateComment(commentRequestDto);
-        }
-
         comment.updateComment(commentRequestDto);
         return CommentResponseDto.toDto(comment);
     }

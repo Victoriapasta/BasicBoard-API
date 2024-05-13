@@ -26,10 +26,9 @@ public class Board {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public Board(String title, String content, Member member) {
+    public Board(String title, String content) {
         this.title = title;
         this.content = content;
-        this.member = member;
     }
 
     public void updateBoard(BoardRequestDto boardRequestDto) {

@@ -40,9 +40,8 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseEntity<BoardResponseDto> boardSave(@Valid @RequestBody BoardRequestDto boardRequestDto, @RequestParam String username) {
-        MemberResponseDto memberResponseDto = memberService.findByUsername(username);
-        BoardResponseDto boardResponseDto = boardService.boardSave(memberResponseDto.getId(), boardRequestDto);
+    public ResponseEntity<BoardResponseDto> boardSave(@Valid @RequestBody BoardRequestDto boardRequestDto) {
+        BoardResponseDto boardResponseDto = boardService.boardSave(boardRequestDto);
         return new ResponseEntity<>(boardResponseDto, HttpStatus.OK);
     }
 

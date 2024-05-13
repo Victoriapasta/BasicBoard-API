@@ -35,6 +35,7 @@ public class Comment {
         this.board = board;
     }
 
+
     public void updateComment(CommentRequestDto commentRequestDto) {
         this.content = commentRequestDto.getContent();
     }

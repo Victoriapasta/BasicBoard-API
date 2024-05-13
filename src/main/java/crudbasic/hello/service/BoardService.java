@@ -39,20 +39,15 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponseDto boardSave(Long id, BoardRequestDto boardRequestDto) {
-        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        boardRequestDto.setMember(member);
-        Board board = boardRepository.save(new Board(boardRequestDto.getTitle(), boardRequestDto.getContent(), boardRequestDto.getMember()));
+    public BoardResponseDto boardSave(BoardRequestDto boardRequestDto) {
+        Board board = boardRepository.save(new Board(boardRequestDto.getTitle(), boardRequestDto.getContent()));
         return BoardResponseDto.toDto(board);
     }
 
     @Transactional
     public BoardResponseDto boardUpdate(Long id, BoardRequestDto boardRequestDto) {
-        Member member = memberRepository.findById(boardRequestDto.getMember().getId()).orElseThrow(MemberNotFoundException::new);
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
-        if (BoardOwnerValidator.isBoardOwner(MemberResponseDto.toDto(member), BoardResponseDto.toDto(board))) {
-            board.updateBoard(boardRequestDto);
-        }
+        board.updateBoard(boardRequestDto);
         return BoardResponseDto.toDto(board);
     }
 

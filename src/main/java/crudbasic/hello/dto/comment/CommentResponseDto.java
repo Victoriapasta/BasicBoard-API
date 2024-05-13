@@ -1,8 +1,6 @@
 package crudbasic.hello.dto.comment;
 
-import crudbasic.hello.domain.board.Board;
 import crudbasic.hello.domain.comment.Comment;
-import crudbasic.hello.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,15 +15,11 @@ public class CommentResponseDto {
 
     private Long id;
     private String content;
-    private Board board;
-    private Member member;
 
     public static CommentResponseDto toDto(Comment comment) {
         return new CommentResponseDto(
                 comment.getId(),
-                comment.getContent(),
-                comment.getBoard(),
-                comment.getMember());
+                comment.getContent());
     }
 
     public static List<CommentResponseDto> toListDto(List<Comment> comments) {
